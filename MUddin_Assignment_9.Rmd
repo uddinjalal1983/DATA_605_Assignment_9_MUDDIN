@@ -1,0 +1,112 @@
+---
+title: "DATA_605_Assignment_9"
+author: "Md Jalal Uddin"
+date: "October 23, 2016"
+output: html_document
+---
+Problem:1
+First write a function that will produce a sample of random variable that is distributed as follows: 
+
+
+```{r}
+
+Randomv_variable_1<-function(x){
+  if(x!=0 && x!=2){
+      if(x>=0 && x<=1){
+        return(x)
+      }else{
+        return(2-x)
+      }
+  }else{
+    return(0)
+  }
+}
+
+```
+
+Problem:2
+Now, write a function that will produce a sample of random variable that is distributed as follows:
+
+```{r}
+Randomv_variable_2<-function(x){
+  if(x!=0 && x!=2){
+    if(x<=1){
+      return(1-x)
+    }else{
+      return(x-1)
+    }
+  }else{
+    return(0)
+  }
+}
+
+
+```
+
+Problem:3
+Draw 1000 samples (call your function 1000 times each) from each of the above two distributions and plot the resulting histograms. You should have one histogram for each PDF. See that it matches your understanding of these PDFs.
+
+```{r}
+sample1 <- seq(0,2,length.out=1000)
+
+dist1<-sapply(sample1,Randomv_variable_1)
+dist2<-sapply(sample1,Randomv_variable_2)
+
+a1_function<-function(sample1,pdf){
+  avg1 <- c()
+  for(i in 1:1000){
+    sample_draw <- sample(sample1, replace=TRUE, prob=pdf)
+    
+  }
+  hist(sample_draw)
+}
+
+#draw a histogram with function f(x)=x,0???x???1 f(x)=2???x,1<x???2
+
+a1_function(sample1,dist1)
+
+```
+
+
+```{r}
+#draw a histogram with function f(x)=1???x,0???x???1 f(x)=x???1,1<x???2
+a1_function(sample1,dist2)
+
+```
+
+Problem:4
+Now, write a program that will take a sample set size n as a parameter and the PDF as the second parameter, and perform 1000 iterations where it samples from the PDF, each time taking n samples and computes the mean of these n samples. It then plots a histogram of these 1000 means that it computes.
+
+```{r}
+a2_function<-function(sample1,pdf,n){
+    average <- c()
+    for(i in 1:1000){
+      sample_draw1 <- sample(sample1,n, replace=TRUE,prob=pdf)
+      average <- c(average, mean(sample_draw1))
+    }
+    
+    hist(average,breaks=20)
+}
+
+```
+
+Problem:5
+Verify that as you set n to something like 10 or 20, each of the two PDFs produce normally distributed mean of samples, empirically verifying the Central Limit Theorem. Please play around with various values of n and you'll see that even for reasonably small sample sizes such as 10, Central Limit Theorem holds.
+
+```{r}
+#draw a histogram with a sample size where we set n=10
+a2_function(sample1,dist1,10)
+
+# The histogram shows aproximately normally distributed
+
+```
+
+```{r}
+#draw a histogram with a sample size where we set n=20
+
+a2_function(sample1,dist2,20)
+
+# This distribution also shows aproximately normally distributed. 
+
+```
+
